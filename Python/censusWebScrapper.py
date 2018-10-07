@@ -1,8 +1,9 @@
 import requests
-from bs4 import BeautifulSoup, SoupStrainer
+from bs4 import BeautifulSoup
+import csv
 
 
-#extract web links
+
 webLink = "https://www.census.gov/programs-surveys/popest.html"
 webPage = requests.get(webLink)
 
@@ -21,9 +22,12 @@ for link in soup.find_all('a'):
         cleanedLink = cleanedLink.rstrip('/')
         correctLinks.add(cleanedLink)
 
-#cast to absolute URIs
+correctLinks = list(correctLinks)
 
-print(correctLinks)
-#verifies no duplicates
+file = open('webLinkFile.csv', 'w')
+with file:
+    writer = csv.writer(file,lineterminator = '\n')
+    for link in correctLinks:
+        writer.writerow([link])
 
-#save to CSV file
+print("Links extracted")
