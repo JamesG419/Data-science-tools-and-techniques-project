@@ -2,10 +2,13 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 
-
+print('Now starting the web scrapper')
 
 webLink = "https://www.census.gov/programs-surveys/popest.html"
 webPage = requests.get(webLink)
+
+if (webPage.status_code == 200):
+    print('Successful conncection to web page')
 
 rawHtml = webPage.text
 
@@ -24,6 +27,7 @@ for link in soup.find_all('a'):
 
 correctLinks = list(correctLinks)
 
+print('Now printing to CSV file')
 file = open('webLinkFile.csv', 'w')
 with file:
     writer = csv.writer(file,lineterminator = '\n')
